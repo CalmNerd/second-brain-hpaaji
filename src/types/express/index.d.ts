@@ -1,4 +1,5 @@
 import { User } from "../custom";
+import { JwtPayload } from "jsonwebtoken";
 
 export { }
 
@@ -10,4 +11,7 @@ declare global {
             id?: number;
         }
     }
+    interface CustomJwtPayload extends JwtPayload {
+        id: number;
+      }
 }
