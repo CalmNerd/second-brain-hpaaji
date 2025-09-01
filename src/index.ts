@@ -21,6 +21,14 @@ app.post("/api/v1/signup", async (req, res) => {
     // todo: zod validation and password hashing
     const username = req.body.username;
     const password = req.body.password;
+    const exitingUser = await UserModel.findOne({
+        username: username
+    })
+    if (exitingUser) {
+        return res.status(400).json({
+            message: "User already exists"
+        })
+    }
 
     await UserModel.create({
         username: username,
@@ -91,8 +99,8 @@ app.get("/api/v1/content", userMiddleware, async (req, res) => {
     })
 })
 
-app.get("/api/v1/content", userMiddleware, async (req, res) => {
-    await ContentModel.deleteMany({
+app.post("/api/v1/content/delete", userMiddleware, async (req, res) => {
+    await ContentModel.deleteOne({
         contentId: req.body.contentId,
         userId: req.userId
     })
