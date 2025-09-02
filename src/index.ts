@@ -101,7 +101,7 @@ app.get("/api/v1/content", userMiddleware, async (req, res) => {
 
 app.post("/api/v1/content/delete", userMiddleware, async (req, res) => {
     await ContentModel.deleteOne({
-        contentId: req.body.contentId,
+        _id: req.body.contentId,
         userId: req.userId
     })
 
@@ -119,7 +119,8 @@ app.post("/api/v1/brain/share", userMiddleware, async (req, res) => {
     if (share) {
         if (exitingLink) {
             res.json({
-                message: "Link already exists:" + exitingLink.hash
+                message: "Link already exists",
+                hash: exitingLink.hash
             })
             return;
         }
@@ -128,7 +129,8 @@ app.post("/api/v1/brain/share", userMiddleware, async (req, res) => {
             userId: req.userId
         })
         res.json({
-            message: "Link updated : " + hash
+            message: "Link updated",
+            hash: hash
         })
     } else {
         await LinkModel.deleteOne({
